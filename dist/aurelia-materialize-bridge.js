@@ -756,6 +756,42 @@ export class MdCollapsible {
   }
 }
 
+/* eslint-disable */
+// http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
+function shadeBlendConvert(p, from, to) {
+    if(typeof(p)!="number"||p<-1||p>1||typeof(from)!="string"||(from[0]!='r'&&from[0]!='#')||(typeof(to)!="string"&&typeof(to)!="undefined"))return null; //ErrorCheck
+    // if(!this.sbcRip)this.sbcRip=function(d){
+    let sbcRip=function(d){
+        var l=d.length,RGB=new Object();
+        if(l>9){
+            d=d.split(",");
+            if(d.length<3||d.length>4)return null;//ErrorCheck
+            RGB[0]=i(d[0].slice(4)),RGB[1]=i(d[1]),RGB[2]=i(d[2]),RGB[3]=d[3]?parseFloat(d[3]):-1;
+        }else{
+            switch(l){case 8:case 6:case 3:case 2:case 1:return null;} //ErrorCheck
+            if(l<6)d="#"+d[1]+d[1]+d[2]+d[2]+d[3]+d[3]+(l>4?d[4]+""+d[4]:""); //3 digit
+            d=i(d.slice(1),16),RGB[0]=d>>16&255,RGB[1]=d>>8&255,RGB[2]=d&255,RGB[3]=l==9||l==5?r(((d>>24&255)/255)*10000)/10000:-1;
+        }
+        return RGB;}
+    var i=parseInt,r=Math.round,h=from.length>9,h=typeof(to)=="string"?to.length>9?true:to=="c"?!h:false:h,b=p<0,p=b?p*-1:p,to=to&&to!="c"?to:b?"#000000":"#FFFFFF",f=sbcRip(from),t=sbcRip(to);
+    if(!f||!t)return null; //ErrorCheck
+    if(h)return "rgb("+r((t[0]-f[0])*p+f[0])+","+r((t[1]-f[1])*p+f[1])+","+r((t[2]-f[2])*p+f[2])+(f[3]<0&&t[3]<0?")":","+(f[3]>-1&&t[3]>-1?r(((t[3]-f[3])*p+f[3])*10000)/10000:t[3]<0?f[3]:t[3])+")");
+    else return "#"+(0x100000000+(f[3]>-1&&t[3]>-1?r(((t[3]-f[3])*p+f[3])*255):t[3]>-1?r(t[3]*255):f[3]>-1?r(f[3]*255):255)*0x1000000+r((t[0]-f[0])*p+f[0])*0x10000+r((t[1]-f[1])*p+f[1])*0x100+r((t[2]-f[2])*p+f[2])).toString(16).slice(f[3]>-1||t[3]>-1?1:3);
+}
+/* eslint-enable */
+
+export class DarkenValueConverter {
+  toView(value, steps) {
+    return shadeBlendConvert(-0.3 * parseFloat(steps, 10), value);
+  }
+}
+
+export class LightenValueConverter {
+  toView(value, steps) {
+    return shadeBlendConvert(0.3 * parseFloat(steps, 10), value);
+  }
+}
+
 @customElement('md-collection-header')
 @inject(Element)
 export class MdCollectionHeader {
@@ -800,42 +836,6 @@ export class MdlListSelector {
 
   isSelectedChanged(newValue) {
     fireMaterializeEvent(this.element, 'selection-changed', { item: this.item, isSelected: this.isSelected });
-  }
-}
-
-/* eslint-disable */
-// http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
-function shadeBlendConvert(p, from, to) {
-    if(typeof(p)!="number"||p<-1||p>1||typeof(from)!="string"||(from[0]!='r'&&from[0]!='#')||(typeof(to)!="string"&&typeof(to)!="undefined"))return null; //ErrorCheck
-    // if(!this.sbcRip)this.sbcRip=function(d){
-    let sbcRip=function(d){
-        var l=d.length,RGB=new Object();
-        if(l>9){
-            d=d.split(",");
-            if(d.length<3||d.length>4)return null;//ErrorCheck
-            RGB[0]=i(d[0].slice(4)),RGB[1]=i(d[1]),RGB[2]=i(d[2]),RGB[3]=d[3]?parseFloat(d[3]):-1;
-        }else{
-            switch(l){case 8:case 6:case 3:case 2:case 1:return null;} //ErrorCheck
-            if(l<6)d="#"+d[1]+d[1]+d[2]+d[2]+d[3]+d[3]+(l>4?d[4]+""+d[4]:""); //3 digit
-            d=i(d.slice(1),16),RGB[0]=d>>16&255,RGB[1]=d>>8&255,RGB[2]=d&255,RGB[3]=l==9||l==5?r(((d>>24&255)/255)*10000)/10000:-1;
-        }
-        return RGB;}
-    var i=parseInt,r=Math.round,h=from.length>9,h=typeof(to)=="string"?to.length>9?true:to=="c"?!h:false:h,b=p<0,p=b?p*-1:p,to=to&&to!="c"?to:b?"#000000":"#FFFFFF",f=sbcRip(from),t=sbcRip(to);
-    if(!f||!t)return null; //ErrorCheck
-    if(h)return "rgb("+r((t[0]-f[0])*p+f[0])+","+r((t[1]-f[1])*p+f[1])+","+r((t[2]-f[2])*p+f[2])+(f[3]<0&&t[3]<0?")":","+(f[3]>-1&&t[3]>-1?r(((t[3]-f[3])*p+f[3])*10000)/10000:t[3]<0?f[3]:t[3])+")");
-    else return "#"+(0x100000000+(f[3]>-1&&t[3]>-1?r(((t[3]-f[3])*p+f[3])*255):t[3]>-1?r(t[3]*255):f[3]>-1?r(f[3]*255):255)*0x1000000+r((t[0]-f[0])*p+f[0])*0x10000+r((t[1]-f[1])*p+f[1])*0x100+r((t[2]-f[2])*p+f[2])).toString(16).slice(f[3]>-1||t[3]>-1?1:3);
-}
-/* eslint-enable */
-
-export class DarkenValueConverter {
-  toView(value, steps) {
-    return shadeBlendConvert(-0.3 * parseFloat(steps, 10), value);
-  }
-}
-
-export class LightenValueConverter {
-  toView(value, steps) {
-    return shadeBlendConvert(0.3 * parseFloat(steps, 10), value);
   }
 }
 
@@ -1310,6 +1310,34 @@ export class MdFooter {
   }
 }
 
+@customAttribute('md-modal-trigger')
+@inject(Element)
+export class MdModalTrigger {
+  @bindable() dismissible = true;
+
+  constructor(element) {
+    this.element = element;
+    this.attributeManager = new AttributeManager(this.element);
+    this.onComplete = this.onComplete.bind(this);
+  }
+
+  attached() {
+    this.attributeManager.addClasses('modal-trigger');
+    $(this.element).leanModal({
+      complete: this.onComplete,
+      dismissible: getBooleanFromAttributeValue(this.dismissible)
+    });
+  }
+
+  detached() {
+    this.attributeManager.removeClasses('modal-trigger');
+  }
+
+  onComplete() {
+    fireMaterializeEvent(this.element, 'modal-complete');
+  }
+}
+
 @customAttribute('md-prefix')
 @inject(Element)
 export class MdPrefix {
@@ -1408,34 +1436,6 @@ export class MdInput {
     if (this.mdTextArea) {
       $(this.input).trigger('autoresize');
     }
-  }
-}
-
-@customAttribute('md-modal-trigger')
-@inject(Element)
-export class MdModalTrigger {
-  @bindable() dismissible = true;
-
-  constructor(element) {
-    this.element = element;
-    this.attributeManager = new AttributeManager(this.element);
-    this.onComplete = this.onComplete.bind(this);
-  }
-
-  attached() {
-    this.attributeManager.addClasses('modal-trigger');
-    $(this.element).leanModal({
-      complete: this.onComplete,
-      dismissible: getBooleanFromAttributeValue(this.dismissible)
-    });
-  }
-
-  detached() {
-    this.attributeManager.removeClasses('modal-trigger');
-  }
-
-  onComplete() {
-    fireMaterializeEvent(this.element, 'modal-complete');
   }
 }
 
@@ -1685,23 +1685,6 @@ export class MdRange {
   }
 }
 
-@customAttribute('md-scrollspy')
-@inject(Element)
-export class MdScrollSpy {
-  @bindable() target;
-  constructor(element) {
-    this.element = element;
-  }
-
-  attached() {
-    $(this.target, this.element).scrollSpy();
-  }
-
-  detached() {
-    // destroy handler not available
-  }
-}
-
 /* eslint no-new-func:0 */
 export class ScrollfirePatch {
   static patched = false;
@@ -1797,6 +1780,23 @@ export class MdScrollfire {
   }
 }
 
+@customAttribute('md-scrollspy')
+@inject(Element)
+export class MdScrollSpy {
+  @bindable() target;
+  constructor(element) {
+    this.element = element;
+  }
+
+  attached() {
+    $(this.target, this.element).scrollSpy();
+  }
+
+  detached() {
+    // destroy handler not available
+  }
+}
+
 @inject(Element, LogManager, BindingEngine, TaskQueue)
 @customAttribute('md-select')
 export class MdSelect {
@@ -1812,6 +1812,7 @@ export class MdSelect {
     this.log = LogManager.getLogger('md-select');
     this.bindingEngine = bindingEngine;
   }
+
   attached() {
     this.subscriptions.push(this.bindingEngine.propertyObserver(this.element, 'value').subscribe(this.handleChangeFromViewModel));
     // this.subscriptions.push(this.bindingEngine.propertyObserver(this.element, 'selectedOptions').subscribe(this.notifyBindingEngine.bind(this)));
@@ -1819,7 +1820,7 @@ export class MdSelect {
     //   this.log.warn('materialize callback', $(this.element).val());
     //   this.handleChangeFromNativeSelect();
     // });
-    $(this.element).material_select();
+    this.createMaterialSelect(false);
     $(this.element).on('change', this.handleChangeFromNativeSelect);
   }
 
@@ -1831,25 +1832,12 @@ export class MdSelect {
 
   refresh() {
     this.taskQueue.queueTask(() => {
-      $(this.element).material_select('destroy');
-      $(this.element).material_select();
+      this.createMaterialSelect(true);
     });
   }
 
   disabledChanged(newValue) {
-    let $wrapper = $(this.element).parent('.select-wrapper');
-    if ($wrapper.length > 0) {
-      if (newValue) {
-        $('.caret', $wrapper).addClass('disabled');
-        $('input.select-dropdown', $wrapper).attr('disabled', 'disabled');
-        $wrapper.attr('disabled', 'disabled');
-      } else {
-        $('.caret', $wrapper).removeClass('disabled');
-        $('input.select-dropdown', $wrapper).attr('disabled', null);
-        $wrapper.attr('disabled', null);
-        $('.select-dropdown', $wrapper).dropdown({'hover': false, 'closeOnClick': false});
-      }
-    }
+    this.toggleControl(newValue);
   }
 
   notifyBindingEngine() {
@@ -1869,8 +1857,32 @@ export class MdSelect {
   handleChangeFromViewModel(newValue) {
     this.log.debug('handleChangeFromViewModel', newValue, $(this.element).val());
     if (!this._suspendUpdate) {
-      $(this.element).material_select();
+      this.createMaterialSelect(false);
     }
+  }
+
+  toggleControl(disable) {
+    let $wrapper = $(this.element).parent('.select-wrapper');
+    if ($wrapper.length > 0) {
+      if (disable) {
+        $('.caret', $wrapper).addClass('disabled');
+        $('input.select-dropdown', $wrapper).attr('disabled', 'disabled');
+        $wrapper.attr('disabled', 'disabled');
+      } else {
+        $('.caret', $wrapper).removeClass('disabled');
+        $('input.select-dropdown', $wrapper).attr('disabled', null);
+        $wrapper.attr('disabled', null);
+        $('.select-dropdown', $wrapper).dropdown({'hover': false, 'closeOnClick': false});
+      }
+    }
+  }
+
+  createMaterialSelect(destroy) {
+    if (destroy) {
+      $(this.element).material_select('destroy');
+    }
+    $(this.element).material_select();
+    this.toggleControl(this.disabled);
   }
 }
 

@@ -215,6 +215,14 @@ export declare class MdCollapsible {
   refresh(): any;
   accordionChanged(): any;
 }
+
+/* eslint-enable */
+export declare class DarkenValueConverter {
+  toView(value?: any, steps?: any): any;
+}
+export declare class LightenValueConverter {
+  toView(value?: any, steps?: any): any;
+}
 export declare class MdCollectionHeader {
   constructor(element?: any);
 }
@@ -231,14 +239,6 @@ export declare class MdlListSelector {
   isSelected: any;
   constructor(element?: any);
   isSelectedChanged(newValue?: any): any;
-}
-
-/* eslint-enable */
-export declare class DarkenValueConverter {
-  toView(value?: any, steps?: any): any;
-}
-export declare class LightenValueConverter {
-  toView(value?: any, steps?: any): any;
 }
 
 /**
@@ -351,6 +351,13 @@ export declare class MdFooter {
   bind(): any;
   unbind(): any;
 }
+export declare class MdModalTrigger {
+  dismissible: any;
+  constructor(element?: any);
+  attached(): any;
+  detached(): any;
+  onComplete(): any;
+}
 export declare class MdPrefix {
   constructor(element?: any);
   bind(): any;
@@ -376,13 +383,6 @@ export declare class MdInput {
   bind(): any;
   attached(): any;
   mdValueChanged(): any;
-}
-export declare class MdModalTrigger {
-  dismissible: any;
-  constructor(element?: any);
-  attached(): any;
-  detached(): any;
-  onComplete(): any;
 }
 export declare class MdNavbar {
   mdFixed: any;
@@ -472,14 +472,7 @@ export declare class MdRange {
   mdValue: any;
   constructor(element?: any);
 }
-export declare class MdScrollSpy {
-  target: any;
-  constructor(element?: any);
-  attached(): any;
-  detached(): any;
-}
 
-// destroy handler not available
 /* eslint no-new-func:0 */
 export declare class ScrollfirePatch {
   static patched: any;
@@ -495,6 +488,14 @@ export declare class MdScrollfire {
   constructor(element?: any);
   attached(): any;
 }
+export declare class MdScrollSpy {
+  target: any;
+  constructor(element?: any);
+  attached(): any;
+  detached(): any;
+}
+
+// destroy handler not available
 export declare class MdSelect {
   disabled: any;
   subscriptions: any;
@@ -506,6 +507,8 @@ export declare class MdSelect {
   notifyBindingEngine(): any;
   handleChangeFromNativeSelect(): any;
   handleChangeFromViewModel(newValue?: any): any;
+  toggleControl(disable?: any): any;
+  createMaterialSelect(destroy?: any): any;
 }
 export declare class MdSidenavCollapse {
   ref: any;
