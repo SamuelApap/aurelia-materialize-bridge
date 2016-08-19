@@ -208,6 +208,13 @@ export declare class MdChips {
 }
 
 // fireEvent(this.element, 'change');
+export declare class MdCollapsible {
+  constructor(element?: any);
+  attached(): any;
+  detached(): any;
+  refresh(): any;
+  accordionChanged(): any;
+}
 export declare class MdCollectionHeader {
   constructor(element?: any);
 }
@@ -224,13 +231,6 @@ export declare class MdlListSelector {
   isSelected: any;
   constructor(element?: any);
   isSelectedChanged(newValue?: any): any;
-}
-export declare class MdCollapsible {
-  constructor(element?: any);
-  attached(): any;
-  detached(): any;
-  refresh(): any;
-  accordionChanged(): any;
 }
 
 /* eslint-enable */
@@ -351,13 +351,6 @@ export declare class MdFooter {
   bind(): any;
   unbind(): any;
 }
-export declare class MdModalTrigger {
-  dismissible: any;
-  constructor(element?: any);
-  attached(): any;
-  detached(): any;
-  onComplete(): any;
-}
 export declare class MdPrefix {
   constructor(element?: any);
   bind(): any;
@@ -384,6 +377,13 @@ export declare class MdInput {
   attached(): any;
   mdValueChanged(): any;
 }
+export declare class MdModalTrigger {
+  dismissible: any;
+  constructor(element?: any);
+  attached(): any;
+  detached(): any;
+  onComplete(): any;
+}
 export declare class MdNavbar {
   mdFixed: any;
   fixedAttributeManager: any;
@@ -391,13 +391,6 @@ export declare class MdNavbar {
   attached(): any;
   detached(): any;
 }
-export declare class MdParallax {
-  constructor(element?: any);
-  attached(): any;
-  detached(): any;
-}
-
-// destroy handler not available
 export declare class MdPagination {
   mdActivePage: any;
   mdPages: any;
@@ -417,6 +410,13 @@ export declare class MdPagination {
   mdVisiblePageLinksChanged(): any;
   generatePageLinks(): any;
 }
+export declare class MdParallax {
+  constructor(element?: any);
+  attached(): any;
+  detached(): any;
+}
+
+// destroy handler not available
 export declare class MdProgress {
   mdColor: any;
   mdType: any;
@@ -472,7 +472,14 @@ export declare class MdRange {
   mdValue: any;
   constructor(element?: any);
 }
+export declare class MdScrollSpy {
+  target: any;
+  constructor(element?: any);
+  attached(): any;
+  detached(): any;
+}
 
+// destroy handler not available
 /* eslint no-new-func:0 */
 export declare class ScrollfirePatch {
   static patched: any;
@@ -488,14 +495,6 @@ export declare class MdScrollfire {
   constructor(element?: any);
   attached(): any;
 }
-export declare class MdScrollSpy {
-  target: any;
-  constructor(element?: any);
-  attached(): any;
-  detached(): any;
-}
-
-// destroy handler not available
 export declare class MdSelect {
   disabled: any;
   subscriptions: any;
