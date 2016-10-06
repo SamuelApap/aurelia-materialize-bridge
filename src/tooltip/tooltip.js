@@ -30,7 +30,6 @@ export class MdTooltip {
   }
 
   detached() {
-    $(this.element).tooltip('remove');
     this.attributeManager.removeClasses('tooltipped');
     this.attributeManager.removeAttributes(['data-position', 'data-tooltip']);
   }
