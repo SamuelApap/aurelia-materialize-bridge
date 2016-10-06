@@ -94,7 +94,6 @@ System.register(['aurelia-templating', 'aurelia-dependency-injection', '../commo
         };
 
         MdTooltip.prototype.detached = function detached() {
-          $(this.element).tooltip('remove');
           this.attributeManager.removeClasses('tooltipped');
           this.attributeManager.removeAttributes(['data-position', 'data-tooltip']);
         };
