@@ -87,7 +87,7 @@ define(['exports', 'aurelia-templating', 'aurelia-dependency-injection', '../com
     };
 
     MdTooltip.prototype.detached = function detached() {
-      $(this.element).tooltip('remove');
+      // i removed the remove :)
       this.attributeManager.removeClasses('tooltipped');
       this.attributeManager.removeAttributes(['data-position', 'data-tooltip']);
     };
